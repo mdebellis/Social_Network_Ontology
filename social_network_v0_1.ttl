@@ -1,0 +1,1009 @@
+@prefix : <https://www.michaeldebellis.com/social_network/> .
+@prefix sn: <https://www.michaeldebellis.com/social_network/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sulo: <https://w3id.org/sulo/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix big_bro: <https://www.michaeldebellis.com/big_bro/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <https://www.michaeldebellis.com/social_network/> .
+
+<https://www.michaeldebellis.com/social_network> rdf:type owl:Ontology ;
+                                                  owl:versionIRI <https://www.michaeldebellis.com/social_network/0.1.0> ;
+                                                  owl:imports <https://www.michaeldebellis.com/big_bro> ;
+                                                  dcterms:created "2026-07-16"^^xsd:date ;
+                                                  dcterms:creator <https://orcid.org/0000-0002-8824-9577> ;
+                                                  dcterms:description "An initial ontology for representing Social Network participants, multidimensional person classifications, first-class social relationships, relationship-specific roles, interests, expertise, and qualified participation in activities."@en ;
+                                                  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+												  dcterms:rights "Copyright © 2026 Michael DeBellis. Licensed under CC BY 4.0."@en ;
+                                                  dcterms:title "Social Network Ontology"@en ;
+                                                  vann:preferredNamespacePrefix "sn" ;
+                                                  vann:preferredNamespaceUri sn: ;
+                                                  rdfs:label "Social Network Ontology"@en ;
+                                                  owl:versionInfo "0.1.0" ;
+                                                  skos:changeNote "Initial exploratory version to model Social Networks."@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://www.michaeldebellis.com/social_network/has_activity_participant
+sn:has_activity_participant rdf:type owl:ObjectProperty ;
+                            owl:inverseOf sn:participates_in_activity ;
+                            rdfs:domain prov:Activity ;
+                            rdfs:range prov:Agent ;
+                            owl:propertyChainAxiom ( sn:has_activity_participation
+                                                     prov:agent
+                                                   ) ;
+                            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                            rdfs:label "has activity participant"@en ;
+                            skos:definition "A derived convenience property connecting an activity directly to an agent participating in it."@en ;
+                            skos:prefLabel "has activity participant"@en ;
+                            skos:scopeNote "This property is inferred from activity participation records and should not be maintained independently."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_activity_participation
+sn:has_activity_participation rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf prov:qualifiedAssociation ;
+                              owl:inverseOf sn:is_activity_participation_in ;
+                              rdfs:domain prov:Activity ;
+                              rdfs:range sn:Activity_Participation ;
+                              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                              rdfs:label "has activity participation"@en ;
+                              skos:definition "Connects an activity to a qualified participation by one agent."@en ;
+                              skos:prefLabel "has activity participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_age_band
+sn:has_age_band rdf:type owl:ObjectProperty ;
+                owl:inverseOf sn:is_age_band_of ;
+                rdf:type owl:FunctionalProperty ;
+                rdfs:domain prov:Person ;
+                rdfs:range sn:Age_Band ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "has age band"@en ;
+                skos:definition "Connects a person to the person's current privacy-preserving age band."@en ;
+                skos:prefLabel "has age band"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_expertise
+sn:has_expertise rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf sulo:hasFeature ;
+                 owl:inverseOf sn:is_expertise_of ;
+                 rdfs:domain prov:Agent ;
+                 rdfs:range sn:Expertise ;
+                 rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                 rdfs:label "has expertise"@en ;
+                 skos:definition "Connects an agent to a first-class Expertise capability."@en ;
+                 skos:prefLabel "has expertise"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_expertise_subject
+sn:has_expertise_subject rdf:type owl:ObjectProperty ;
+                         owl:inverseOf sn:is_expertise_subject_of ;
+                         rdfs:domain sn:Expertise ;
+                         rdfs:range sulo:Object ;
+                         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                         rdfs:label "has expertise subject"@en ;
+                         skos:definition "Connects an Expertise capability to a topic, ecosystem, resource, or other subject concerning which the agent has expertise."@en ;
+                         skos:prefLabel "has expertise subject"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_interest
+sn:has_interest rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf sulo:hasFeature ;
+                owl:inverseOf sn:is_interest_of ;
+                rdfs:domain prov:Agent ;
+                rdfs:range sn:Interest ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "has interest"@en ;
+                skos:definition "Connects an agent to a first-class Interest."@en ;
+                skos:prefLabel "has interest"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_interest_subject
+sn:has_interest_subject rdf:type owl:ObjectProperty ;
+                        owl:inverseOf sn:is_interest_subject_of ;
+                        rdfs:domain sn:Interest ;
+                        rdfs:range sulo:Object ;
+                        rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                        rdfs:label "has interest subject"@en ;
+                        skos:definition "Connects an Interest to a topic, ecosystem, resource, activity-related object, or other subject of interest."@en ;
+                        skos:prefLabel "has interest subject"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_relationship_context
+sn:has_relationship_context rdf:type owl:ObjectProperty ;
+                            owl:inverseOf sn:is_context_for_relationship ;
+                            rdfs:domain sn:Social_Relationship ;
+                            rdfs:range owl:Thing ;
+                            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                            rdfs:label "has relationship context"@en ;
+                            skos:definition "Connects a social relationship to a project, activity, ecosystem, topic, location, organization, or other entity that supplies relevant context."@en ;
+                            skos:prefLabel "has relationship context"@en ;
+                            skos:scopeNote "The broad range is intentional because a relationship may be contextualized by either an object or a process. More specific subproperties can be added when requirements justify them."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_relationship_participant
+sn:has_relationship_participant rdf:type owl:ObjectProperty ;
+                                rdfs:subPropertyOf sulo:isFeatureOf ;
+                                owl:inverseOf sn:participates_in_relationship ;
+                                rdfs:domain sn:Social_Relationship ;
+                                rdfs:range prov:Agent ;
+                                owl:propertyChainAxiom ( sn:has_relationship_participation
+                                                         prov:agent
+                                                       ) ;
+                                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                rdfs:label "has relationship participant"@en ;
+                                skos:definition "A derived convenience property connecting a social relationship directly to an agent participating in it."@en ;
+                                skos:prefLabel "has relationship participant"@en ;
+                                skos:scopeNote "This property is inferred from relationship participation records. It should not be maintained independently of those records."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/has_relationship_participation
+sn:has_relationship_participation rdf:type owl:ObjectProperty ;
+                                  owl:inverseOf sn:is_relationship_participation_in ;
+                                  rdfs:domain sn:Social_Relationship ;
+                                  rdfs:range sn:Relationship_Participation ;
+                                  rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                  rdfs:label "has relationship participation"@en ;
+                                  skos:definition "Connects a social relationship to a qualified participation by one agent."@en ;
+                                  skos:prefLabel "has relationship participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_activity_participation_in
+sn:is_activity_participation_in rdf:type owl:ObjectProperty ;
+                                rdfs:domain sn:Activity_Participation ;
+                                rdfs:range prov:Activity ;
+                                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                rdfs:label "is activity participation in"@en ;
+                                skos:definition "Connects a qualified activity participation to the activity in which the agent participates."@en ;
+                                skos:prefLabel "is activity participation in"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_age_band_of
+sn:is_age_band_of rdf:type owl:ObjectProperty ;
+                  rdfs:domain sn:Age_Band ;
+                  rdfs:range prov:Person ;
+                  rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                  rdfs:label "is age band of"@en ;
+                  skos:definition "Connects an age band to a person currently classified in that age band."@en ;
+                  skos:prefLabel "is age band of"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_context_for_relationship
+sn:is_context_for_relationship rdf:type owl:ObjectProperty ;
+                               rdfs:domain owl:Thing ;
+                               rdfs:range sn:Social_Relationship ;
+                               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                               rdfs:label "is context for relationship"@en ;
+                               skos:definition "Connects an entity or process to a social relationship for which it supplies context."@en ;
+                               skos:prefLabel "is context for relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_expertise_of
+sn:is_expertise_of rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf sulo:isFeatureOf ;
+                   rdfs:domain sn:Expertise ;
+                   rdfs:range prov:Agent ;
+                   rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                   rdfs:label "is expertise of"@en ;
+                   skos:definition "Connects an Expertise capability to the agent who possesses it."@en ;
+                   skos:prefLabel "is expertise of"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_expertise_subject_of
+sn:is_expertise_subject_of rdf:type owl:ObjectProperty ;
+                           rdfs:domain sulo:Object ;
+                           rdfs:range sn:Expertise ;
+                           rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                           rdfs:label "is expertise subject of"@en ;
+                           skos:definition "Connects a topic, ecosystem, resource, or other subject to an Expertise capability concerning that subject."@en ;
+                           skos:prefLabel "is expertise subject of"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_interest_of
+sn:is_interest_of rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf sulo:isFeatureOf ;
+                  rdfs:domain sn:Interest ;
+                  rdfs:range prov:Agent ;
+                  rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                  rdfs:label "is interest of"@en ;
+                  skos:definition "Connects an Interest to the agent whose interest it represents."@en ;
+                  skos:prefLabel "is interest of"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_interest_subject_of
+sn:is_interest_subject_of rdf:type owl:ObjectProperty ;
+                          rdfs:domain sulo:Object ;
+                          rdfs:range sn:Interest ;
+                          rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                          rdfs:label "is interest subject of"@en ;
+                          skos:definition "Connects a topic, ecosystem, resource, or other subject to an Interest concerning that subject."@en ;
+                          skos:prefLabel "is interest subject of"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/is_relationship_participation_in
+sn:is_relationship_participation_in rdf:type owl:ObjectProperty ;
+                                    rdfs:domain sn:Relationship_Participation ;
+                                    rdfs:range sn:Social_Relationship ;
+                                    rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                    rdfs:label "is relationship participation in"@en ;
+                                    skos:definition "Connects a qualified relationship participation to the social relationship in which it occurs."@en ;
+                                    skos:prefLabel "is relationship participation in"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/participates_in_activity
+sn:participates_in_activity rdf:type owl:ObjectProperty ;
+                            rdfs:domain prov:Agent ;
+                            rdfs:range prov:Activity ;
+                            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                            rdfs:label "participates in activity"@en ;
+                            skos:definition "A derived convenience property connecting an agent directly to an activity in which the agent participates."@en ;
+                            skos:prefLabel "participates in activity"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/participates_in_relationship
+sn:participates_in_relationship rdf:type owl:ObjectProperty ;
+                                rdfs:subPropertyOf sulo:hasFeature ;
+                                rdfs:domain prov:Agent ;
+                                rdfs:range sn:Social_Relationship ;
+                                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                rdfs:label "participates in relationship"@en ;
+                                skos:definition "A derived convenience property connecting an agent directly to a social relationship in which the agent participates."@en ;
+                                skos:prefLabel "participates in relationship"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://www.michaeldebellis.com/social_network/relationship_ended_at
+sn:relationship_ended_at rdf:type owl:DatatypeProperty ;
+                         rdfs:domain sn:Social_Relationship ;
+                         rdfs:range xsd:dateTime ;
+                         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                         rdfs:label "relationship ended at"@en ;
+                         skos:definition "The date and time at which a social relationship ended."@en ;
+                         skos:prefLabel "relationship ended at"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/relationship_started_at
+sn:relationship_started_at rdf:type owl:DatatypeProperty ;
+                           rdfs:domain sn:Social_Relationship ;
+                           rdfs:range xsd:dateTime ;
+                           rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                           rdfs:label "relationship started at"@en ;
+                           skos:definition "The date and time at which a social relationship began."@en ;
+                           skos:prefLabel "relationship started at"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://www.michaeldebellis.com/social_network/Activity_Participation
+sn:Activity_Participation rdf:type owl:Class ;
+                          rdfs:subClassOf prov:Association ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty prov:hadRole ;
+                                            owl:allValuesFrom sn:SN_Role
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty prov:hadRole ;
+                                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass sn:SN_Role
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty prov:agent ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass prov:Agent
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty sn:is_activity_participation_in ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass prov:Activity
+                                          ] ;
+                          owl:hasKey ( prov:agent
+                                       sn:is_activity_participation_in
+                                     ) ;
+                          rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                          rdfs:label "Activity Participation"@en ;
+                          skos:definition "A qualified PROV association connecting one agent to one activity and recording the role or roles held by the agent in that activity."@en ;
+                          skos:prefLabel "Activity Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Adolescent
+sn:Adolescent rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( prov:Person
+                                                         [ rdf:type owl:Class ;
+                                                           owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty sn:has_age_band ;
+                                                                           owl:hasValue sn:Age_13_To_15
+                                                                         ]
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty sn:has_age_band ;
+                                                                           owl:hasValue sn:Age_16_To_17
+                                                                         ]
+                                                                       )
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf sn:Person_Classified_By_Life_Stage ;
+              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+              rdfs:label "Adolescent"@en ;
+              skos:definition "A person whose current age band is Age 13 to 15 or Age 16 to 17."@en ;
+              skos:prefLabel "Adolescent"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Adult
+sn:Adult rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( prov:Person
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty sn:has_age_band ;
+                                                      owl:hasValue sn:Age_18_And_Over
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf sn:Person_Classified_By_Life_Stage ;
+         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+         rdfs:label "Adult"@en ;
+         skos:definition "A person whose current age band is Age 18 and Over."@en ;
+         skos:prefLabel "Adult"@en ;
+         skos:scopeNote "This is an application classification based on the selected age band, not a universal claim about legal adulthood in every jurisdiction."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Age_Band
+sn:Age_Band rdf:type owl:Class ;
+            rdfs:subClassOf prov:Entity ,
+                            sulo:InformationObject ;
+            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+            rdfs:label "Age Band"@en ;
+            skos:definition "A privacy-preserving controlled category representing a range of current ages."@en ;
+            skos:prefLabel "Age Band"@en ;
+            skos:scopeNote "Age bands support current-state classification without requiring an exact age."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Child
+sn:Child rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( prov:Person
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty sn:has_age_band ;
+                                                      owl:hasValue sn:Age_0_To_12
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:subClassOf sn:Person_Classified_By_Life_Stage ;
+         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+         rdfs:label "Child"@en ;
+         skos:definition "A person whose current age band is Age 0 to 12."@en ;
+         skos:prefLabel "Child"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Citizen_Scientist
+sn:Citizen_Scientist rdf:type owl:Class ;
+                     rdfs:subClassOf sn:Person_Classified_By_Practice ;
+                     rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                     rdfs:label "Citizen Scientist"@en ;
+                     skos:definition "A person who contributes to scientific inquiry outside or alongside a conventional professional scientific position."@en ;
+                     skos:prefLabel "Citizen Scientist"@en ;
+                     skos:scopeNote "Citizen Scientist is not asserted as a subclass of Scientist because we may include participants who make valuable scientific contributions without adopting a professional or disciplinary scientist identity."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Collaboration_Relationship
+sn:Collaboration_Relationship rdf:type owl:Class ;
+                              rdfs:subClassOf sn:Social_Relationship ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty sn:has_relationship_participation ;
+                                                owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                owl:onClass sn:Collaborator_Participation
+                                              ] ;
+                              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                              rdfs:label "Collaboration Relationship"@en ;
+                              skos:definition "A social relationship in which agents work together toward a shared purpose. It may be dyadic or higher-order."@en ;
+                              skos:prefLabel "Collaboration Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Collaborator_Participation
+sn:Collaborator_Participation rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty prov:hadRole ;
+                                                                           owl:hasValue sn:Collaborator_Role
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                              rdfs:label "Collaborator Participation"@en ;
+                              skos:definition "A relationship participation in which the agent holds the Collaborator Role."@en ;
+                              skos:prefLabel "Collaborator Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Community_Organizer
+sn:Community_Organizer rdf:type owl:Class ;
+                       rdfs:subClassOf sn:Person_Classified_By_Practice ;
+                       rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                       rdfs:label "Community Organizer"@en ;
+                       skos:definition "A person engaged in helping communities coordinate collective goals and action."@en ;
+                       skos:prefLabel "Community Organizer"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Dyadic_Social_Relationship
+sn:Dyadic_Social_Relationship rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( sn:Social_Relationship
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty sn:has_relationship_participation ;
+                                                                           owl:qualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                                           owl:onClass sn:Relationship_Participation
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                              rdfs:label "Dyadic Social Relationship"@en ;
+                              skos:definition "A social relationship with exactly two qualified participations."@en ;
+                              skos:prefLabel "Dyadic Social Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Educator
+sn:Educator rdf:type owl:Class ;
+            rdfs:subClassOf sn:Person_Classified_By_Practice ;
+            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+            rdfs:label "Educator"@en ;
+            skos:definition "A person engaged in teaching, facilitation of learning, or educational support as a sustained practice."@en ;
+            skos:prefLabel "Educator"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Expertise
+sn:Expertise rdf:type owl:Class ;
+             rdfs:subClassOf prov:Entity ,
+                             sulo:Capability ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty sn:has_expertise_subject ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass sulo:Object
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty sn:is_expertise_of ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass prov:Agent
+                             ] ;
+             rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+             rdfs:label "Expertise"@en ;
+             skos:definition "A first-class capability representing knowledge or skill possessed by an agent concerning one or more subjects."@en ;
+             skos:prefLabel "Expertise"@en ;
+             skos:scopeNote "Expertise is kept separate from the Scientist class. Children, community members, educators, scientists, and other participants may all possess expertise."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Facilitation_Relationship
+sn:Facilitation_Relationship rdf:type owl:Class ;
+                             rdfs:subClassOf sn:Social_Relationship ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty sn:has_relationship_participation ;
+                                               owl:someValuesFrom sn:Facilitator_Participation
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty sn:has_relationship_participation ;
+                                               owl:someValuesFrom sn:Participant_Participation
+                                             ] ;
+                             rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                             rdfs:label "Facilitation Relationship"@en ;
+                             skos:definition "A social relationship containing at least one Facilitator Participation and at least one general Participant Participation."@en ;
+                             skos:prefLabel "Facilitation Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Facilitator_Participation
+sn:Facilitator_Participation rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty prov:hadRole ;
+                                                                          owl:hasValue sn:Facilitator_Role
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                             rdfs:label "Facilitator Participation"@en ;
+                             skos:definition "A relationship participation in which the agent holds the Facilitator Role."@en ;
+                             skos:prefLabel "Facilitator Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Friend_Participation
+sn:Friend_Participation rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty prov:hadRole ;
+                                                                     owl:hasValue sn:Friend_Role
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                        rdfs:label "Friend Participation"@en ;
+                        skos:definition "A relationship participation in which the agent holds the Friend Role."@en ;
+                        skos:prefLabel "Friend Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Friendship
+sn:Friendship rdf:type owl:Class ;
+              rdfs:subClassOf sn:Dyadic_Social_Relationship ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty sn:has_relationship_participation ;
+                                owl:allValuesFrom sn:Friend_Participation
+                              ] ;
+              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+              rdfs:label "Friendship"@en ;
+              skos:definition "A dyadic social relationship in which both participants hold the Friend Role."@en ;
+              skos:prefLabel "Friendship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Higher_Order_Social_Relationship
+sn:Higher_Order_Social_Relationship rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( sn:Social_Relationship
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty sn:has_relationship_participation ;
+                                                                                 owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+                                                                                 owl:onClass sn:Relationship_Participation
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                    rdfs:label "Higher-Order Social Relationship"@en ;
+                                    skos:definition "A social relationship with three or more qualified participations and therefore suitable for projection as a hyperedge."@en ;
+                                    skos:prefLabel "Higher-Order Social Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Interest
+sn:Interest rdf:type owl:Class ;
+            rdfs:subClassOf prov:Entity ,
+                            sulo:Feature ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty sn:has_interest_subject ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass sulo:Object
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty sn:is_interest_of ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass prov:Agent
+                            ] ;
+            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+            rdfs:label "Interest"@en ;
+            skos:definition "A first-class feature representing an agent's interest in one or more subjects."@en ;
+            skos:prefLabel "Interest"@en ;
+            skos:scopeNote "Representing interests as entities allows provenance, time, confidence, privacy, and recommendation metadata to be added later without changing the core pattern."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Mentee_Participation
+sn:Mentee_Participation rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty prov:hadRole ;
+                                                                     owl:hasValue sn:Mentee_Role
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                        rdfs:label "Mentee Participation"@en ;
+                        skos:definition "A relationship participation in which the agent holds the Mentee Role."@en ;
+                        skos:prefLabel "Mentee Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Mentor_Participation
+sn:Mentor_Participation rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty prov:hadRole ;
+                                                                     owl:hasValue sn:Mentor_Role
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                        rdfs:label "Mentor Participation"@en ;
+                        skos:definition "A relationship participation in which the agent holds the Mentor Role."@en ;
+                        skos:prefLabel "Mentor Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Mentoring_Relationship
+sn:Mentoring_Relationship rdf:type owl:Class ;
+                          rdfs:subClassOf sn:Social_Relationship ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty sn:has_relationship_participation ;
+                                            owl:someValuesFrom sn:Mentee_Participation
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty sn:has_relationship_participation ;
+                                            owl:someValuesFrom sn:Mentor_Participation
+                                          ] ;
+                          rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                          rdfs:label "Mentoring Relationship"@en ;
+                          skos:definition "A social relationship containing at least one Mentor Participation and at least one Mentee Participation."@en ;
+                          skos:prefLabel "Mentoring Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Participant_Participation
+sn:Participant_Participation rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty prov:hadRole ;
+                                                                          owl:hasValue sn:Participant_Role
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                             rdfs:label "Participant Participation"@en ;
+                             skos:definition "A relationship participation in which the agent holds the general Participant Role."@en ;
+                             skos:prefLabel "Participant Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Person_Classified_By_Life_Stage
+sn:Person_Classified_By_Life_Stage rdf:type owl:Class ;
+                                   rdfs:subClassOf prov:Person ;
+                                   rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                   rdfs:label "Person Classified by Life Stage"@en ;
+                                   skos:definition "An organizational superclass for person classes defined along the life-stage dimension."@en ;
+                                   skos:prefLabel "Person Classified by Life Stage"@en ;
+                                   skos:scopeNote "This class organizes one coherent classification dimension. It is not intended to imply that life stage is a person's primary or permanent identity."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Person_Classified_By_Practice
+sn:Person_Classified_By_Practice rdf:type owl:Class ;
+                                 rdfs:subClassOf prov:Person ;
+                                 rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                 rdfs:label "Person Classified by Practice"@en ;
+                                 skos:definition "An organizational superclass for person classes based on a sustained practice, field of activity, or mode of contribution."@en ;
+                                 skos:prefLabel "Person Classified by Practice"@en ;
+                                 skos:scopeNote "Subclasses in this dimension are intentionally not disjoint. A person may simultaneously be a Scientist, Educator, Student, Citizen Scientist, and Community Organizer."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Project_Participation
+sn:Project_Participation rdf:type owl:Class ;
+                         rdfs:subClassOf sn:Activity_Participation ;
+                         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                         rdfs:label "Project Participation"@en ;
+                         skos:definition "An activity participation whose associated activity is understood by the application to be a project."@en ;
+                         skos:prefLabel "Project Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Relationship_Participation
+sn:Relationship_Participation rdf:type owl:Class ;
+                              rdfs:subClassOf prov:Association ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty prov:hadRole ;
+                                                owl:allValuesFrom sn:SN_Role
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty prov:hadRole ;
+                                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass sn:SN_Role
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty prov:agent ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass prov:Agent
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty sn:is_relationship_participation_in ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass sn:Social_Relationship
+                                              ] ;
+                              owl:hasKey ( prov:agent
+                                           sn:is_relationship_participation_in
+                                         ) ;
+                              rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                              rdfs:label "Relationship Participation"@en ;
+                              skos:definition "A qualified participation that connects one agent to one social relationship and records one or more roles held by that agent in the relationship."@en ;
+                              skos:prefLabel "Relationship Participation"@en ;
+                              skos:scopeNote "This class corresponds to a node-hyperedge incidence in a hypergraph projection. Metadata specific to one participant's involvement can be attached here."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/SN_Role
+sn:SN_Role rdf:type owl:Class ;
+           rdfs:subClassOf prov:Role ,
+                           sulo:Role ;
+           rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+           rdfs:label "Social Network Role"@en ;
+           skos:definition "A context-dependent function held by an agent in a social relationship or activity participation."@en ;
+           skos:prefLabel "Social Network Role"@en ;
+           skos:scopeNote "Use roles for classifications whose meaning depends on a particular relationship or activity. More general classifications such as Scientist, Student, and Adolescent are modeled as classes of persons."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Scientist
+sn:Scientist rdf:type owl:Class ;
+             rdfs:subClassOf sn:Person_Classified_By_Practice ;
+             rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+             rdfs:label "Scientist"@en ;
+             skos:definition "A person engaged in systematic scientific inquiry as a sustained practice."@en ;
+             skos:prefLabel "Scientist"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Social_Relationship
+sn:Social_Relationship rdf:type owl:Class ;
+                       rdfs:subClassOf prov:Entity ,
+                                       sulo:Feature ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty sn:has_relationship_participation ;
+                                         owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                         owl:onClass sn:Relationship_Participation
+                                       ] ;
+                       rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                       rdfs:label "Social Relationship"@en ;
+                       skos:definition "A first-class entity representing a socially meaningful relationship among two or more agents."@en ;
+                       skos:prefLabel "Social Relationship"@en ;
+                       skos:scopeNote "The relationship is authoritative. Direct agent-to-agent edges used for network analysis should be treated as analytical projections rather than as independently maintained facts."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Student
+sn:Student rdf:type owl:Class ;
+           rdfs:subClassOf sn:Person_Classified_By_Practice ;
+           rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+           rdfs:label "Student"@en ;
+           skos:definition "A person engaged in a sustained course of study or learning."@en ;
+           skos:prefLabel "Student"@en ;
+           skos:scopeNote "Student is a general current classification. Learner Role should be used when the classification depends on participation in a particular activity."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Supervised_Participant_Participation
+sn:Supervised_Participant_Participation rdf:type owl:Class ;
+                                        owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                                   [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty prov:hadRole ;
+                                                                                     owl:hasValue sn:Supervised_Participant_Role
+                                                                                   ]
+                                                                                 ) ;
+                                                              rdf:type owl:Class
+                                                            ] ;
+                                        rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                                        rdfs:label "Supervised Participant Participation"@en ;
+                                        skos:definition "A relationship participation in which the agent holds the Supervised Participant Role."@en ;
+                                        skos:prefLabel "Supervised Participant Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Supervision_Relationship
+sn:Supervision_Relationship rdf:type owl:Class ;
+                            rdfs:subClassOf sn:Social_Relationship ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty sn:has_relationship_participation ;
+                                              owl:someValuesFrom sn:Supervised_Participant_Participation
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty sn:has_relationship_participation ;
+                                              owl:someValuesFrom sn:Supervisor_Participation
+                                            ] ;
+                            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                            rdfs:label "Supervision Relationship"@en ;
+                            skos:definition "A social relationship containing at least one Supervisor Participation and at least one Supervised Participant Participation."@en ;
+                            skos:prefLabel "Supervision Relationship"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Supervisor_Participation
+sn:Supervisor_Participation rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( sn:Relationship_Participation
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty prov:hadRole ;
+                                                                         owl:hasValue sn:Supervisor_Role
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                            rdfs:label "Supervisor Participation"@en ;
+                            skos:definition "A relationship participation in which the agent holds the Supervisor Role."@en ;
+                            skos:prefLabel "Supervisor Participation"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Topic
+sn:Topic rdf:type owl:Class ;
+         rdfs:subClassOf prov:Entity ,
+                         sulo:InformationObject ;
+         rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+         rdfs:label "Topic"@en ;
+         skos:definition "An information object used as a controlled subject of interest, expertise, learning, or activity."@en ;
+         skos:prefLabel "Topic"@en ;
+         skos:scopeNote "General subjects such as photography or climate justice may be Topic individuals. Interests and expertise may also point directly to domain objects, including IUCN ecosystem individuals."@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Young_Person
+sn:Young_Person rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Class ;
+                                      owl:unionOf ( sn:Adolescent
+                                                    sn:Child
+                                                  )
+                                    ] ;
+                rdfs:subClassOf sn:Person_Classified_By_Life_Stage ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "Young Person"@en ;
+                skos:definition "A person classified as either a Child or an Adolescent."@en ;
+                skos:prefLabel "Young Person"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://www.michaeldebellis.com/social_network/Age_0_To_12
+sn:Age_0_To_12 rdf:type owl:NamedIndividual ,
+                        sn:Age_Band ;
+               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+               rdfs:label "Age 0 to 12"@en ;
+               skos:definition "The controlled age band for current ages from birth through twelve years."@en ;
+               skos:prefLabel "Age 0 to 12"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Age_13_To_15
+sn:Age_13_To_15 rdf:type owl:NamedIndividual ,
+                         sn:Age_Band ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "Age 13 to 15"@en ;
+                skos:definition "The controlled age band for current ages thirteen through fifteen years."@en ;
+                skos:prefLabel "Age 13 to 15"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Age_16_To_17
+sn:Age_16_To_17 rdf:type owl:NamedIndividual ,
+                         sn:Age_Band ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "Age 16 to 17"@en ;
+                skos:definition "The controlled age band for current ages sixteen and seventeen years."@en ;
+                skos:prefLabel "Age 16 to 17"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Age_18_And_Over
+sn:Age_18_And_Over rdf:type owl:NamedIndividual ,
+                            sn:Age_Band ;
+                   rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                   rdfs:label "Age 18 and Over"@en ;
+                   skos:definition "The controlled age band for current ages eighteen years and over."@en ;
+                   skos:prefLabel "Age 18 and Over"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Collaborator_Role
+sn:Collaborator_Role rdf:type owl:NamedIndividual ,
+                              sn:SN_Role ;
+                     rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                     rdfs:label "Collaborator Role"@en ;
+                     skos:definition "The role held by an agent participating in a collaboration."@en ;
+                     skos:prefLabel "Collaborator Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Contributor_Role
+sn:Contributor_Role rdf:type owl:NamedIndividual ,
+                             sn:SN_Role ;
+                    rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                    rdfs:label "Contributor Role"@en ;
+                    skos:definition "The role of contributing work, knowledge, evidence, or other resources to an activity."@en ;
+                    skos:prefLabel "Contributor Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Facilitator_Role
+sn:Facilitator_Role rdf:type owl:NamedIndividual ,
+                             sn:SN_Role ;
+                    rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                    rdfs:label "Facilitator Role"@en ;
+                    skos:definition "The role of helping participants coordinate, learn, communicate, or act together."@en ;
+                    skos:prefLabel "Facilitator Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Friend_Role
+sn:Friend_Role rdf:type owl:NamedIndividual ,
+                        sn:SN_Role ;
+               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+               rdfs:label "Friend Role"@en ;
+               skos:definition "The role held by a participant in a friendship."@en ;
+               skos:prefLabel "Friend Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Learner_Role
+sn:Learner_Role rdf:type owl:NamedIndividual ,
+                         sn:SN_Role ;
+                rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                rdfs:label "Learner Role"@en ;
+                skos:definition "The role of participating in an activity for the purpose of learning."@en ;
+                skos:prefLabel "Learner Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Mentee_Role
+sn:Mentee_Role rdf:type owl:NamedIndividual ,
+                        sn:SN_Role ;
+               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+               rdfs:label "Mentee Role"@en ;
+               skos:definition "The role of receiving guidance in a mentoring relationship or activity."@en ;
+               skos:prefLabel "Mentee Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Mentor_Role
+sn:Mentor_Role rdf:type owl:NamedIndividual ,
+                        sn:SN_Role ;
+               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+               rdfs:label "Mentor Role"@en ;
+               skos:definition "The role of providing guidance in a mentoring relationship or activity."@en ;
+               skos:prefLabel "Mentor Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Participant_Role
+sn:Participant_Role rdf:type owl:NamedIndividual ,
+                             sn:SN_Role ;
+                    rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                    rdfs:label "Participant Role"@en ;
+                    skos:definition "A general role held by an agent taking part in a relationship or activity."@en ;
+                    skos:prefLabel "Participant Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Project_Lead_Role
+sn:Project_Lead_Role rdf:type owl:NamedIndividual ,
+                              sn:SN_Role ;
+                     rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                     rdfs:label "Project Lead Role"@en ;
+                     skos:definition "The role of leading or coordinating a project activity."@en ;
+                     skos:prefLabel "Project Lead Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Supervised_Participant_Role
+sn:Supervised_Participant_Role rdf:type owl:NamedIndividual ,
+                                        sn:SN_Role ;
+                               rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                               rdfs:label "Supervised Participant Role"@en ;
+                               skos:definition "The role held by an agent who participates under supervision."@en ;
+                               skos:prefLabel "Supervised Participant Role"@en .
+
+
+###  https://www.michaeldebellis.com/social_network/Supervisor_Role
+sn:Supervisor_Role rdf:type owl:NamedIndividual ,
+                            sn:SN_Role ;
+                   rdfs:isDefinedBy <https://www.michaeldebellis.com/social_network> ;
+                   rdfs:label "Supervisor Role"@en ;
+                   skos:definition "The role of supervising one or more participants in a relationship or activity."@en ;
+                   skos:prefLabel "Supervisor Role"@en .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( sn:Adolescent
+                sn:Adult
+                sn:Child
+              )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( sn:Age_0_To_12
+                        sn:Age_13_To_15
+                        sn:Age_16_To_17
+                        sn:Age_18_And_Over
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( sn:Collaborator_Role
+                        sn:Contributor_Role
+                        sn:Facilitator_Role
+                        sn:Friend_Role
+                        sn:Learner_Role
+                        sn:Mentee_Role
+                        sn:Mentor_Role
+                        sn:Participant_Role
+                        sn:Project_Lead_Role
+                        sn:Supervised_Participant_Role
+                        sn:Supervisor_Role
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
